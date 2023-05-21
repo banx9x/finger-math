@@ -37,7 +37,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['assets/calculator.icns'],
+    icon=['assets/calculator.ico'],
 )
 coll = COLLECT(
     exe,
@@ -52,6 +52,6 @@ coll = COLLECT(
 app = BUNDLE(
     coll,
     name='KidLearnFingerMath.app',
-    icon='assets/calculator.icns',
+    icon='assets/calculator.ico',
     bundle_identifier=None,
 )
