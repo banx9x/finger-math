@@ -1,16 +1,15 @@
 import os
 from typing import Tuple
 
+from PySide6.QtCore import Qt, Slot, QUrl, Signal
+from PySide6.QtGui import QIcon, QFontDatabase, QKeyEvent
+from PySide6.QtMultimedia import QSoundEffect
+from PySide6.QtWidgets import QMainWindow, QTableWidgetItem, QHeaderView
 
-from PySide6.QtCore import Qt, Slot, QUrl, Signal, QObject, QTimer
-from PySide6.QtWidgets import QMainWindow, QDialog, QTableWidgetItem, QHeaderView
-from PySide6.QtMultimedia import QMediaDevices, QMediaPlayer, QAudioOutput, QSoundEffect
-from PySide6.QtGui import QIcon, QFontDatabase
-
-from interface import Ui_MainWindow
 from history_dialog import HistoryDialog
-from dialog import SettingDialog
+from interface import Ui_MainWindow
 from lib.generate import Operator, generator
+from setting_dialog import SettingDialog
 
 basedir = os.path.dirname(__file__)
 
@@ -46,7 +45,7 @@ class Window(QMainWindow, Ui_MainWindow):
     BUTTON_CHECKED_LABEL = "Tiếp tục"
 
     settings_changed = Signal(Tuple[int, int, int])
-    expression_changed = Signal(str)
+    expression_changed = Signal()
 
     def __init__(self):
         super().__init__()
@@ -54,11 +53,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self.expression.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.expression_changed.connect(self.on_expression_changed)
-
-        self.btnHistory.clicked.connect(self.show_history_dialog)
-        self.btnSetting.clicked.connect(self.show_setting_dialog)
-        self.settings_changed.connect(self.change_expression)
+        self.answer.returnPressed.connect(self.check_result)
 
         self.correct_sound = QSoundEffect()
         self.correct_sound.setSource(QUrl.fromLocalFile(os.path.join(basedir, u"assets/sounds/correct.wav")))
@@ -75,7 +70,7 @@ class Window(QMainWindow, Ui_MainWindow):
     @expr.setter
     def expr(self, expression):
         self._expr = expression
-        self.expression_changed.emit(self._expr)
+        self.expression_changed.emit()
 
     @property
     def checked(self):
@@ -124,6 +119,7 @@ class Window(QMainWindow, Ui_MainWindow):
     @allow_negative.setter
     def allow_negative(self, value):
         self._allow_negative = value
+        self.answer.set_allow_negative(self.allow_negative)
 
     @property
     def enable_sound(self):
@@ -150,16 +146,21 @@ class Window(QMainWindow, Ui_MainWindow):
         self._incorrect = value
 
     @Slot()
-    def on_expression_changed(self):
+    def handle_expression_changed(self):
         self.expression.setText(f"{self.expr} = ??")
         self.checked = False
 
+        self.answer.setPrefix("")
         self.answer.clear()
         self.answer.setEnabled(True)
         self.answer.setFocus()
 
         self.btnCheck.setEnabled(False)
         self.btnCheck.setText(self.BUTTON_LABEL)
+
+    @Slot()
+    def handle_settings_changed(self):
+        self.change_expression()
 
     @Slot()
     def change_expression(self):
@@ -172,7 +173,11 @@ class Window(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def check_result(self):
-        answer = self.answer.value()
+        answer = self.answer.get_value()
+
+        if answer is None:
+            return
+
         result = eval(self.expr)
         is_correct = answer == result
 
@@ -232,14 +237,13 @@ class Window(QMainWindow, Ui_MainWindow):
         self.max_operand = values["max_operand"]
         self.operators = values["operators"]
         self.allow_negative = values["allow_negative"]
-        self.enable_sound = values["result_sound"]
-
-        if self.allow_negative:
-            self.answer.setMinimum(-999)
-        else:
-            self.answer.setMinimum(0)
+        self.enable_sound = values["enable_sound"]
 
         self.settings_changed.emit()
+
+    def keyPressEvent(self, event: QKeyEvent):
+        if event.key() == Qt.Key.Key_Return and self.checked:
+            self.change_expression()
 
 
 if __name__ == "__main__":

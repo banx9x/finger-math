@@ -32,6 +32,8 @@
 
 QLabel#numOfCorrect, QLabel#numOfIncorrect {
 	font-weight: bold;
+	font-size: 20px;
+	font-family: &quot;Sunny Spells&quot;;
 }
 
 QLabel#expression {
@@ -57,7 +59,7 @@ QSpinBox#answer {
 }
 
 QPushButton#btnCheck {
-	width: 100px;
+	width: 150px;
 	height: 50px;
 	padding: 0;
 	margin: 0;
@@ -223,27 +225,6 @@ QLabel#message {
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
               <widget class="CustomQSpinBox" name="answer">
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>150</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="specialValueText">
-                <string/>
-               </property>
-               <property name="prefix">
-                <string/>
-               </property>
-               <property name="minimum">
-                <number>0</number>
-               </property>
                <property name="maximum">
                 <number>9999</number>
                </property>
@@ -294,9 +275,9 @@ QLabel#message {
   <customwidget>
    <class>CustomQSpinBox</class>
    <extends>QSpinBox</extends>
-   <header>customqspinbox.h</header>
+   <header location="global">customqspinbox.h</header>
    <slots>
-    <signal>answer_changed(bool)</signal>
+    <signal>validated(bool)</signal>
    </slots>
   </customwidget>
  </customwidgets>
@@ -322,23 +303,92 @@ QLabel#message {
   </connection>
   <connection>
    <sender>answer</sender>
-   <signal>answer_changed(bool)</signal>
+   <signal>validated(bool)</signal>
    <receiver>btnCheck</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>458</x>
-     <y>216</y>
+     <x>448</x>
+     <y>276</y>
     </hint>
     <hint type="destinationlabel">
-     <x>509</x>
-     <y>316</y>
+     <x>449</x>
+     <y>320</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>expression_changed()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>handle_expression_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>434</x>
+     <y>231</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>434</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnHistory</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>show_history_dialog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>739</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>634</x>
+     <y>-6</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnSetting</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>show_setting_dialog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>839</x>
+     <y>25</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>831</x>
+     <y>-2</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>settings_changed()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>handle_settings_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>434</x>
+     <y>231</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>434</x>
+     <y>231</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <signal>expression_changed(QString)</signal>
+  <signal>expression_changed()</signal>
+  <signal>settings_changed()</signal>
   <slot>handle_click()</slot>
+  <slot>handle_expression_changed()</slot>
+  <slot>show_setting_dialog()</slot>
+  <slot>show_history_dialog()</slot>
+  <slot>handle_settings_changed()</slot>
  </slots>
 </ui>

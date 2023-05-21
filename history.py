@@ -8,17 +8,8 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractButton, QAbstractItemView, QApplication, QDialog,
-    QDialogButtonBox, QFrame, QHBoxLayout, QHeaderView,
-    QSizePolicy, QTableWidget, QTableWidgetItem, QVBoxLayout,
-    QWidget)
+from PySide6.QtCore import (QCoreApplication, QMetaObject, QSize, Qt)
+from PySide6.QtWidgets import (QAbstractItemView, QDialogButtonBox, QFrame, QHBoxLayout, QTableWidget, QTableWidgetItem, QVBoxLayout)
 
 class Ui_HistoryDialog(object):
     def setupUi(self, HistoryDialog):
@@ -48,7 +39,12 @@ class Ui_HistoryDialog(object):
         self.historyTable.setHorizontalHeaderItem(2, __qtablewidgetitem2)
         self.historyTable.setObjectName(u"historyTable")
         self.historyTable.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.historyTable.setTabKeyNavigation(False)
+        self.historyTable.setProperty("showDropIndicator", False)
+        self.historyTable.setDragDropOverwriteMode(False)
         self.historyTable.setSelectionMode(QAbstractItemView.NoSelection)
+        self.historyTable.setTextElideMode(Qt.ElideLeft)
+        self.historyTable.setCornerButtonEnabled(False)
         self.historyTable.setRowCount(0)
         self.historyTable.setColumnCount(3)
         self.historyTable.horizontalHeader().setCascadingSectionResizes(True)

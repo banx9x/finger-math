@@ -8,18 +8,12 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractButton, QApplication, QCheckBox, QDialog,
-    QDialogButtonBox, QFrame, QGridLayout, QHBoxLayout,
-    QLabel, QSizePolicy, QWidget)
+from PySide6.QtCore import (QCoreApplication, QMetaObject, Qt)
+from PySide6.QtWidgets import (QCheckBox, QDialogButtonBox, QFrame, QGridLayout, QHBoxLayout,
+                               QLabel)
 
 from customqspinbox import CustomQSpinBox
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -36,16 +30,9 @@ class Ui_Dialog(object):
 "	min-width: 60px;\n"
 "}")
         Dialog.setSizeGripEnabled(True)
-        Dialog.setModal(True)
+        Dialog.setModal(False)
         self.gridLayout = QGridLayout(Dialog)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.buttonBox = QDialogButtonBox(Dialog)
-        self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setOrientation(Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Ok)
-
-        self.gridLayout.addWidget(self.buttonBox, 2, 0, 1, 1)
-
         self.settings = QFrame(Dialog)
         self.settings.setObjectName(u"settings")
         self.settings.setFrameShape(QFrame.StyledPanel)
@@ -69,7 +56,7 @@ class Ui_Dialog(object):
 
         self.add = QCheckBox(self.operatorsFrame)
         self.add.setObjectName(u"add")
-        self.add.setEnabled(False)
+        self.add.setEnabled(True)
         self.add.setChecked(True)
 
         self.horizontalLayout_5.addWidget(self.add)
@@ -135,7 +122,7 @@ class Ui_Dialog(object):
         self.minOperand = CustomQSpinBox(self.minOperandFrame)
         self.minOperand.setObjectName(u"minOperand")
         self.minOperand.setMinimum(1)
-        self.minOperand.setMaximum(8)
+        self.minOperand.setMaximum(999)
         self.minOperand.setValue(1)
 
         self.horizontalLayout_2.addWidget(self.minOperand)
@@ -158,6 +145,7 @@ class Ui_Dialog(object):
 
         self.numOfOperands = CustomQSpinBox(self.numOfOperandsFrame)
         self.numOfOperands.setObjectName(u"numOfOperands")
+        self.numOfOperands.setMinimum(1)
         self.numOfOperands.setMaximum(99)
         self.numOfOperands.setValue(2)
 
@@ -181,9 +169,9 @@ class Ui_Dialog(object):
 
         self.maxOperand = CustomQSpinBox(self.maxOperandFrame)
         self.maxOperand.setObjectName(u"maxOperand")
-        self.maxOperand.setMinimum(5)
+        self.maxOperand.setMinimum(1)
         self.maxOperand.setMaximum(999)
-        self.maxOperand.setValue(9)
+        self.maxOperand.setValue(999)
 
         self.horizontalLayout_3.addWidget(self.maxOperand)
 
@@ -209,6 +197,13 @@ class Ui_Dialog(object):
 
 
         self.gridLayout.addWidget(self.settings, 0, 0, 1, 1)
+
+        self.buttonBox = QDialogButtonBox(Dialog)
+        self.buttonBox.setObjectName(u"buttonBox")
+        self.buttonBox.setOrientation(Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Ok)
+
+        self.gridLayout.addWidget(self.buttonBox, 2, 0, 1, 1)
 
 
         self.retranslateUi(Dialog)

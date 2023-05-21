@@ -8,19 +8,13 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QMainWindow, QPushButton, QSizePolicy, QSpacerItem,
-    QVBoxLayout, QWidget)
+from PySide6.QtCore import (QCoreApplication, QMetaObject, QSize, Qt)
+from PySide6.QtWidgets import (QFrame, QHBoxLayout, QLabel,
+                               QPushButton, QSizePolicy, QSpacerItem,
+                               QVBoxLayout, QWidget)
 
 from customqspinbox import CustomQSpinBox
-import resources_rc
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -34,6 +28,8 @@ class Ui_MainWindow(object):
 "\n"
 "QLabel#numOfCorrect, QLabel#numOfIncorrect {\n"
 "	font-weight: bold;\n"
+"	font-size: 20px;\n"
+"	font-family: \"Sunny Spells\";\n"
 "}\n"
 "\n"
 "QLabel#expression {\n"
@@ -59,7 +55,7 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QPushButton#btnCheck {\n"
-"	width: 100px;\n"
+"	width: 150px;\n"
 "	height: 50px;\n"
 "	padding: 0;\n"
 "	margin: 0;\n"
@@ -148,9 +144,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.answer = CustomQSpinBox(self.inner)
         self.answer.setObjectName(u"answer")
-        self.answer.setMinimumSize(QSize(150, 0))
-        self.answer.setMaximumSize(QSize(150, 16777215))
-        self.answer.setMinimum(0)
         self.answer.setMaximum(9999)
 
         self.verticalLayout_4.addWidget(self.answer)
@@ -181,7 +174,11 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.btnCheck.clicked.connect(MainWindow.handle_click)
-        self.answer.answer_changed.connect(self.btnCheck.setEnabled)
+        self.answer.validated.connect(self.btnCheck.setEnabled)
+        MainWindow.expression_changed.connect(MainWindow.handle_expression_changed)
+        self.btnHistory.clicked.connect(MainWindow.show_history_dialog)
+        self.btnSetting.clicked.connect(MainWindow.show_setting_dialog)
+        MainWindow.settings_changed.connect(MainWindow.handle_settings_changed)
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
@@ -201,8 +198,6 @@ class Ui_MainWindow(object):
         self.btnHistory.setText(QCoreApplication.translate("MainWindow", u"L\u1ecbch s\u1eed", None))
         self.btnSetting.setText(QCoreApplication.translate("MainWindow", u"C\u00e0i \u0111\u1eb7t", None))
         self.expression.setText(QCoreApplication.translate("MainWindow", u"1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 = ?", None))
-        self.answer.setSpecialValueText("")
-        self.answer.setPrefix("")
         self.btnCheck.setText(QCoreApplication.translate("MainWindow", u"KI\u1ec2M TRA", None))
     # retranslateUi
 

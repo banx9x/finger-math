@@ -55,8 +55,23 @@
         <property name="editTriggers">
          <set>QAbstractItemView::NoEditTriggers</set>
         </property>
+        <property name="tabKeyNavigation">
+         <bool>false</bool>
+        </property>
+        <property name="showDropIndicator" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="dragDropOverwriteMode">
+         <bool>false</bool>
+        </property>
         <property name="selectionMode">
          <enum>QAbstractItemView::NoSelection</enum>
+        </property>
+        <property name="textElideMode">
+         <enum>Qt::ElideLeft</enum>
+        </property>
+        <property name="cornerButtonEnabled">
+         <bool>false</bool>
         </property>
         <property name="rowCount">
          <number>0</number>
@@ -114,8 +129,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>260</x>
+     <y>351</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -130,8 +145,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>328</x>
+     <y>351</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
